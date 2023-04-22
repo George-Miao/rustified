@@ -1,38 +1,40 @@
-# rustify
+# rustified
+
+Fork of [rustify](https://crates.io/crates/rustify) due to lack of maintainance.
 
 <p align="center">
-    <a href="https://crates.io/crates/rustify">
-        <img src="https://img.shields.io/crates/v/rustify">
+    <a href="https://crates.io/crates/rustified">
+        <img src="https://img.shields.io/crates/v/rustified">
     </a>
-    <a href="https://docs.rs/rustify">
-        <img src="https://img.shields.io/docsrs/rustify" />
+    <a href="https://docs.rs/rustified">
+        <img src="https://img.shields.io/docsrs/rustified" />
     </a>
-    <a href="https://github.com/jmgilman/rustify/actions/workflows/ci.yml">
-        <img src="https://github.com/jmgilman/rustify/actions/workflows/ci.yml/badge.svg"/>
+    <a href="https://github.com/George-Miao/rustified/actions/workflows/ci.yml">
+        <img src="https://github.com/George-Miao/rustified/actions/workflows/ci.yml/badge.svg"/>
     </a>
 </p>
 
 > A Rust library for interacting with HTTP API endpoints
 
-Rustify is a small library written in Rust which eases the burden of
+rustified is a small library written in Rust which eases the burden of
 scaffolding HTTP APIs. It provides an `Endpoint` trait along with a macro helper
 which allows templating various remote endpoints. Both asynchronous and
 synchrounous clients are offered for executing requests against endpoints with
 the option of implementing custom clients using the `Client` trait.
 
-Rustify provides support for serializing requests and deserializing responses.
+rustified provides support for serializing requests and deserializing responses.
 Raw requests and responses in the form of bytes are also supported. The library
 also contains many helpers for dealing with requests like support for middleware
 and wrapping API responses.
 
 ## Installation
 
-Add rustify as a dependency to your cargo.toml:
+Add rustified as a dependency to your cargo.toml:
 
 ```toml
 [dependencies]
-rustify = "0.5.3"
-rustify_derive = "0.5.2"
+rustified = "0.5.3"
+rustified_derive = "0.5.3"
 ```
 
 ## Usage
@@ -40,8 +42,8 @@ rustify_derive = "0.5.2"
 ### Basic
 
 ```rust
-use rustify::{Client, Endpoint};
-use rustify_derive::Endpoint;
+use rustified::{Client, Endpoint};
+use rustified_derive::Endpoint;
 
 // Defines an API endpoint at /test/path that takes no inputs and returns an
 // empty response.
@@ -60,8 +62,8 @@ assert!(result.is_ok());
 
 ```rust
 use derive_builder::Builder;
-use rustify::{Client, Endpoint};
-use rustify_derive::Endpoint;
+use rustified::{Client, Endpoint};
+use rustified_derive::Endpoint;
 
 // Defines an API endpoint at /test/path/{name} that takes one input for
 // creating the url and two inputs for building the request body. The content
@@ -69,7 +71,7 @@ use rustify_derive::Endpoint;
 // passing the `request_type` parameter to the endpoint configuration.
 //
 // Note: The `#[endpoint(body)]` attribute tags are technically optional in the
-// below example. If no `body` attribute is found anywhere then rustify defaults
+// below example. If no `body` attribute is found anywhere then rustified defaults
 // to serializing all "untagged" fields as part of the body. Fields can be opted
 // out of this behavior by tagging them with #[endpoint(skip)].
 #[derive(Builder, Endpoint)]
@@ -78,7 +80,7 @@ use rustify_derive::Endpoint;
 struct Test {
     #[endpoint(skip)] // This field shouldn't be serialized anywhere
     pub name: String, // Used to create a dynamic URL
-    #[endpoint(body)] // Instructs rustify to serialize this field as part of the body
+    #[endpoint(body)] // Instructs rustified to serialize this field as part of the body
     pub age: i32,
     #[endpoint(body)]
     pub role: String,
@@ -87,13 +89,13 @@ struct Test {
 // Setting `builder` to true creates a `builder()` method on our struct that
 // returns the TestBuilder type created by `derive_builder`.
 let endpoint = Test::builder()
-        .name("jmgilman")
+        .name("George-Miao")
         .age(42)
         .role("CEO")
         .build()
         .unwrap();
 let client = Client::default("http://api.com");
-let result = endpoint.exec(&client).await; // Sends POST request to http://api.com/test/path/jmgilman
+let result = endpoint.exec(&client).await; // Sends POST request to http://api.com/test/path/George-Miao
 
 assert!(result.is_ok());
 ```
@@ -102,8 +104,8 @@ assert!(result.is_ok());
 
 ```rust
 use derive_builder::Builder;
-use rustify::{Client, Endpoint};
-use rustify_derive::Endpoint;
+use rustified::{Client, Endpoint};
+use rustified_derive::Endpoint;
 
 // Defines a similar API endpoint as in the previous example but adds an
 // optional query parameter to the request. Additionally, this example opts to
@@ -122,14 +124,14 @@ struct Test {
 }
 
 let endpoint = Test::builder()
-        .name("jmgilman")
+        .name("George-Miao")
         .scope("global")
         .age(42)
         .role("CEO")
         .build()
         .unwrap();
 let client = Client::default("http://api.com");
-let result = endpoint.exec(&client).await; // Sends POST request to http://api.com/test/path/jmgilman?scope=global
+let result = endpoint.exec(&client).await; // Sends POST request to http://api.com/test/path/George-Miao?scope=global
 
 assert!(result.is_ok());
 ```
@@ -137,8 +139,8 @@ assert!(result.is_ok());
 ### Responses
 
 ```rust
-use rustify::{Client, Endpoint};
-use rustify_derive::Endpoint;
+use rustified::{Client, Endpoint};
+use rustified_derive::Endpoint;
 
 // Defines an API endpoint at /test/path that takes a single byte array which
 // will be used as the request body (no serialization occurs). The endpoint
@@ -173,11 +175,11 @@ You can find example usage in the [examples](examples) directory. They can
 be run with cargo:
 
 ```
-cargo run --package rustify --example reqres1
-cargo run --package rustify --example reqres2
+cargo run --package rustified --example reqres1
+cargo run --package rustified --example reqres2
 ```
 
-The [vaultrs](https://github.com/jmgilman/vaultrs) crate is built upon rustify
+The [vaultrs](https://github.com/George-Miao/vaultrs) crate is built upon rustify
 and serves as as good reference.
 
 ## Features
@@ -195,16 +197,3 @@ provided by the crate.
 ## Testing
 
 See the the [tests](tests) directory for tests. Run tests with `cargo test`.
-
-## Contributing
-
-Check out the [issues][1] for items needing attention or submit your own and
-then:
-
-1. Fork it (<https://github.com/jmgilman/rustify/fork>)
-2. Create your feature branch (git checkout -b feature/fooBar)
-3. Commit your changes (git commit -am 'Add some fooBar')
-4. Push to the branch (git push origin feature/fooBar)
-5. Create a new Pull Request
-
-[1]: https://github.com/jmgilman/rustify/issues

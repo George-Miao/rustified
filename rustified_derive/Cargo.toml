@@ -1,0 +1,19 @@
+[package]
+name        = "rustified_derive"
+version     = "0.5.3"
+authors     = ["George Miao <gm@miao.dev>", "Joshua Gilman <joshuagilman@gmail.com>"]
+description = "A derive macro for implementing an Endpoint for rustified"
+license     = "MIT"
+repository  = "https://github.com/George-Miao/rustified"
+edition     = "2018"
+
+[lib]
+proc-macro = true
+
+[dependencies]
+syn              = "1.0"
+quote            = "1.0"
+synstructure     = "0.12.5"
+proc-macro2      = "1.0.28"
+regex            = "1.5.4"
+serde_urlencoded = "0.7.0"

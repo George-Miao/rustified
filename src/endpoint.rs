@@ -2,6 +2,10 @@
 
 use std::marker::PhantomData;
 
+use async_trait::async_trait;
+use http::{Request, Response};
+use serde::de::DeserializeOwned;
+
 #[cfg(feature = "blocking")]
 use crate::blocking::client::Client as BlockingClient;
 use crate::{
@@ -9,9 +13,6 @@ use crate::{
     enums::{RequestMethod, RequestType, ResponseType},
     errors::ClientError,
 };
-use async_trait::async_trait;
-use http::{Request, Response};
-use serde::de::DeserializeOwned;
 
 /// Represents a generic wrapper that can be applied to [Endpoint] results.
 ///
@@ -49,6 +50,7 @@ impl<'a, E: Endpoint, M: MiddleWare> MutatedEndpoint<'a, E, M> {
 #[async_trait]
 impl<E: Endpoint, M: MiddleWare> Endpoint for MutatedEndpoint<'_, E, M> {
     type Response = E::Response;
+
     const REQUEST_BODY_TYPE: RequestType = E::REQUEST_BODY_TYPE;
     const RESPONSE_BODY_TYPE: ResponseType = E::RESPONSE_BODY_TYPE;
 
@@ -149,9 +151,8 @@ impl<E: Endpoint, M: MiddleWare> Endpoint for MutatedEndpoint<'_, E, M> {
 ///
 /// # Example
 /// ```
-/// use rustify::clients::reqwest::Client;
-/// use rustify::endpoint::Endpoint;
-/// use rustify_derive::Endpoint;
+/// use rustified::{clients::reqwest::Client, endpoint::Endpoint};
+/// use rustified_derive::Endpoint;
 ///
 /// #[derive(Endpoint)]
 /// #[endpoint(path = "my/endpoint")]

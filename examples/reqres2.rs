@@ -1,25 +1,25 @@
 use std::str::FromStr;
 
 use derive_builder::Builder;
-use rustify::{errors::ClientError, Client, Endpoint, MiddleWare};
-use rustify_derive::Endpoint;
+use rustified::{errors::ClientError, Client, Endpoint, MiddleWare};
+use rustified_derive::Endpoint;
 use serde::{Deserialize, Serialize};
 
 // With this endpoint we are actually giving the struct some fields that will be
 // used to construct the JSON body of the request. When building a request body,
-// rustify performs a few checks to determine how the body should be
+// rustified performs a few checks to determine how the body should be
 // constructed. You can tag a field with `#[endpoint(raw)]` to use that field
 // directly as the request body (it must be a `Vec<u8>`), you can tag one or
 // more fields with #[endpoint(body)] to serialize them together into the
 // request body, or as in the case below, if neither of the above tags are found
-// then rustify automatically serializes all "untagged" fields as the request
+// then rustified automatically serializes all "untagged" fields as the request
 // body.
 //
 // The actual API doesn't include an `opt` argument, however, it's included here
 // for demonstration purposes. Using `setter(into)` here makes creating the
 // request easier since we can pass string slices, as an example. Using
 // `setter(strip_option)` allows passing in optional arguments without wrapping
-// them in `Some`. By default, when rustify serializes the request body, any
+// them in `Some`. By default, when rustified serializes the request body, any
 // `Option` fields that have their value set to `None` will be skipped. This
 // prevents sending something like {"opt": ""} which in some cases could
 // actually overwrite an existing value.
@@ -49,11 +49,12 @@ struct CreateUserResponse {
     pub created_at: String,
 }
 
-// Rustify allows passing Middleware when executing an endpoint. Implementations
-// of this trait contain two methods for operating on outgoing requests and
-// incoming responses. In our case, all of the paths in our API calls share a
-// common trait of needed to be prepended with "/api". Wouldn't it be nice to
-// automatically do this instead of having to specify it for every endpoint?
+// rustified allows passing Middleware when executing an endpoint.
+// Implementations of this trait contain two methods for operating on outgoing
+// requests and incoming responses. In our case, all of the paths in our API
+// calls share a common trait of needed to be prepended with "/api". Wouldn't it
+// be nice to automatically do this instead of having to specify it for every
+// endpoint?
 //
 // The below implementation modifies all outgoing requests by automatically
 // prepending "/api" to the URL path.

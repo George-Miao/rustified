@@ -1,10 +1,12 @@
 //! Contains an implementation of [Client][crate::client::Client] being backed
 //! by the [reqwest](https://docs.rs/reqwest/) crate.
 
-use crate::{client::Client as RustifyClient, errors::ClientError};
+use std::convert::TryFrom;
+
 use async_trait::async_trait;
 use http::{Request, Response};
-use std::convert::TryFrom;
+
+use crate::{client::Client as RustifyClient, errors::ClientError};
 
 /// A client based on the
 /// [reqwest::Client][1] which can be used for executing
@@ -16,9 +18,8 @@ use std::convert::TryFrom;
 ///
 /// # Example
 /// ```
-/// use rustify::clients::reqwest::Client;
-/// use rustify::Endpoint;
-/// use rustify_derive::Endpoint;
+/// use rustified::{clients::reqwest::Client, Endpoint};
+/// use rustified_derive::Endpoint;
 /// use serde::Serialize;
 ///
 /// #[derive(Debug, Endpoint, Serialize)]

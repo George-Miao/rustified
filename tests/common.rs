@@ -1,7 +1,7 @@
 use httpmock::prelude::*;
 #[cfg(feature = "blocking")]
-use rustify::blocking::clients::reqwest::Client as ReqwestBlocking;
-use rustify::{
+use rustified::blocking::clients::reqwest::Client as ReqwestBlocking;
+use rustified::{
     clients::reqwest::Client as Reqwest,
     endpoint::{Endpoint, MiddleWare, Wrapper},
     errors::ClientError,
@@ -84,6 +84,7 @@ impl MiddleWare for Middle {
             .append("X-API-Token", http::HeaderValue::from_static("mytoken"));
         Ok(())
     }
+
     fn response<E: Endpoint>(
         &self,
         _: &E,

@@ -1,5 +1,5 @@
-use rustify::endpoint::Endpoint;
-use rustify_derive::Endpoint;
+use rustified::endpoint::Endpoint;
+use rustified_derive::Endpoint;
 use serde::Serialize;
 
 #[derive(Debug, Endpoint, Serialize)]

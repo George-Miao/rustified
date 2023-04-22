@@ -2,9 +2,11 @@
 //! [Client][crate::blocking::client::Client] being backed by the
 //! [reqwest](https://docs.rs/reqwest/) crate.
 
-use crate::{blocking::client::Client as RustifyClient, errors::ClientError};
-use http::{Request, Response};
 use std::convert::TryFrom;
+
+use http::{Request, Response};
+
+use crate::{blocking::client::Client as RustifyClient, errors::ClientError};
 
 /// A client based on the
 /// [reqwest::blocking::Client][1] which can be used for executing
@@ -16,9 +18,8 @@ use std::convert::TryFrom;
 ///
 /// # Example
 /// ```
-/// use rustify::blocking::clients::reqwest::Client;
-/// use rustify::Endpoint;
-/// use rustify_derive::Endpoint;
+/// use rustified::{blocking::clients::reqwest::Client, Endpoint};
+/// use rustified_derive::Endpoint;
 /// use serde::Serialize;
 ///
 /// #[derive(Debug, Endpoint, Serialize)]

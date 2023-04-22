@@ -1,8 +1,8 @@
 //! Provides a derive macro for easily implementing an `Endpoint` from the
-//! [rustify][1] crate. See the documentation for `rustify` for details on how
-//! to use this macro.
+//! [rustified][1] crate. See the documentation for `rustified` for details on
+//! how to use this macro.
 //!
-//! [1]: https://docs.rs/rustify/
+//! [1]: https://docs.rs/rustified/
 
 #[macro_use]
 extern crate synstructure;
@@ -35,6 +35,7 @@ pub(crate) enum EndpointAttribute {
 
 impl TryFrom<&Meta> for EndpointAttribute {
     type Error = Error;
+
     fn try_from(m: &Meta) -> Result<Self, Self::Error> {
         match m.path().get_ident() {
             Some(i) => match i.to_string().to_lowercase().as_str() {
@@ -306,12 +307,12 @@ fn endpoint_derive(s: synstructure::Structure) -> proc_macro2::TokenStream {
     let const_ident = Ident::new(const_name.as_str(), Span::call_site());
     quote! {
         const #const_ident: () = {
-            use rustify::__private::serde::Serialize;
-            use rustify::http::{build_body, build_query};
-            use rustify::client::Client;
-            use rustify::endpoint::Endpoint;
-            use rustify::enums::{RequestMethod, RequestType, ResponseType};
-            use rustify::errors::ClientError;
+            use rustified::__private::serde::Serialize;
+            use rustified::http::{build_body, build_query};
+            use rustified::client::Client;
+            use rustified::endpoint::Endpoint;
+            use rustified::enums::{RequestMethod, RequestType, ResponseType};
+            use rustified::errors::ClientError;
 
             impl #impl_generics Endpoint for #id #ty_generics #where_clause {
                 type Response = #response;

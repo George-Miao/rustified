@@ -1,8 +1,8 @@
 use std::collections::HashMap;
 
 use derive_builder::Builder;
-use rustify::{Client, Endpoint, Wrapper};
-use rustify_derive::Endpoint;
+use rustified::{Client, Endpoint, Wrapper};
+use rustified_derive::Endpoint;
 use serde::{de::DeserializeOwned, Deserialize};
 
 // While using a builder archetype for requests is not required, it's often the
@@ -12,7 +12,7 @@ use serde::{de::DeserializeOwned, Deserialize};
 // Setting the `builder` attribute to true adds a `builder()` method to the
 // struct for easily getting a default instance of the request builder.
 //
-// Rustify supports a few more parameters in the endpoint definition than are
+// rustified supports a few more parameters in the endpoint definition than are
 // shown here. It resorts to sane defaults in most cases. For our example they
 // are as follows:
 // * method: defaults to GET
@@ -21,15 +21,15 @@ use serde::{de::DeserializeOwned, Deserialize};
 #[derive(Builder, Endpoint)]
 #[endpoint(path = "/api/users", response = "Vec<User>", builder = "true")]
 struct ListUsersRequest {
-    // Tagging this field with #[endpoint(query)] informs rustify that this
+    // Tagging this field with #[endpoint(query)] informs rustified that this
     // field should be appended as a query parameter to the request URL.
     #[endpoint(query)]
     pub page: usize,
 }
 
 // Some responses from the API are paginated and contain a common wrapper around
-// the actual resulting data. Since this is so prevalent in APIs, rustify offers
-// a `Wrapper` which can be used to define this behavior.
+// the actual resulting data. Since this is so prevalent in APIs, rustified
+// offers a `Wrapper` which can be used to define this behavior.
 //
 // Below we define the details of the wrapper that appears around paginated
 // responses. The form of the resulting data field is specified with a generic
@@ -55,8 +55,8 @@ impl<T: DeserializeOwned + Send + Sync> Wrapper for PaginationWrapper<T> {
 
 // Our endpoint returns a JSON array of objects which each contain information
 // about a user. We represent this by creating a `User` struct and then using
-// `Vec<User>` in the `response` parameter of the endpoint to inform rustify on
-// how it should deserialize the response. We don't need to worry about the
+// `Vec<User>` in the `response` parameter of the endpoint to inform rustified
+// on how it should deserialize the response. We don't need to worry about the
 // wrapper because it's handled for us!
 #[derive(Debug, Deserialize)]
 struct User {
@@ -71,8 +71,8 @@ async fn main() {
     // In order to execute endpoints, we must first create a client configured
     // with the base URL of our HTTP API server. In this case we're using the
     // popular reqres.in for our example.
-    // Asynchronous clients can be found in rustify::clients and synchronous
-    // clients in rustify::blocking::clients.
+    // Asynchronous clients can be found in rustified::clients and synchronous
+    // clients in rustify:2:blocking::clients.
     let client = Client::default("https://reqres.in/");
 
     // We use the builder archetype here for constructing an instance of the
@@ -80,8 +80,8 @@ async fn main() {
     // that all required fields have been specified.
     let endpoint = ListUsersRequest::builder().page(1).build().unwrap();
 
-    // Here is where the magic of rustify happens. We call `exec()` which
-    // takes an instance of a `Client` and behind the scenes rustify will
+    // Here is where the magic of rustified happens. We call `exec()` which
+    // takes an instance of a `Client` and behind the scenes rustified will
     // initiate a connection to the API server and send a HTTP request as
     // defined by the endpoint. In this case, it sends a GET request to
     // https://reqres.in/api/users?page=1 and automatically deserializes the
@@ -91,12 +91,12 @@ async fn main() {
     // Executing an endpoint can fail for a number of reasons: there was a
     // problem building the request, an underlying network issue, the server
     // returned a non-200 response, the response could not be properly
-    // deserialized, etc. Rustify uses a common error enum which contains a
+    // deserialized, etc. rustified uses a common error enum which contains a
     // number of variants for identifying the root cause.
     match result {
-        // We inform rustify of the wrapped response by calling `wrap()` instead
+        // We inform rustified of the wrapped response by calling `wrap()` instead
         // of `parse()` which takes a single type argument that instructs
-        // rustify how to properly parse the result (in this case our data is
+        // rustified how to properly parse the result (in this case our data is
         // wrapped in a pagination wrapper).
         Ok(r) => match r.wrap::<PaginationWrapper<_>>() {
             Ok(d) => {

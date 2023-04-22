@@ -1,15 +1,14 @@
 mod common;
 
-use std::fmt::Debug;
+use std::{fmt::Debug, marker::PhantomData};
 
 use common::{Middle, TestGenericWrapper, TestResponse, TestServer};
 use derive_builder::Builder;
 use httpmock::prelude::*;
-use rustify::endpoint::Endpoint;
-use rustify_derive::Endpoint;
+use rustified::endpoint::Endpoint;
+use rustified_derive::Endpoint;
 use serde::{de::DeserializeOwned, Deserialize, Serialize};
 use serde_json::json;
-use std::marker::PhantomData;
 use test_log::test;
 
 #[test(tokio::test)]
