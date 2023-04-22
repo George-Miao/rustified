@@ -1,6 +1,6 @@
 # rustified
 
-Fork of [rustify](https://crates.io/crates/rustify) due to lack of maintainance.
+Fork of [rustify](https://crates.io/crates/rustify) due to lack of maintenance.
 
 <p align="center">
     <a href="https://crates.io/crates/rustified">
