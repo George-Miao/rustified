@@ -1,0 +1,19 @@
+error: Cannot parse attribute as list
+ --> tests/macro/empty_attr.rs:6:3
+  |
+6 | #[endpoint]
+  |   ^^^^^^^^
+
+error: Attribute cannot be empty
+  --> tests/macro/empty_attr.rs:10:3
+   |
+10 | #[endpoint()]
+   |   ^^^^^^^^^^
+
+warning: unused import: `rustified::endpoint::Endpoint`
+ --> tests/macro/empty_attr.rs:1:5
+  |
+1 | use rustified::endpoint::Endpoint;
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |
+  = note: `#[warn(unused_imports)]` on by default

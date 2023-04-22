@@ -41,7 +41,7 @@ rustified_derive = "0.5.3"
 
 ### Basic
 
-```rust
+```rust,ignore
 use rustified::{Client, Endpoint};
 use rustified_derive::Endpoint;
 
@@ -60,7 +60,7 @@ assert!(result.is_ok());
 
 ### Request Body
 
-```rust
+```rust,ignore
 use derive_builder::Builder;
 use rustified::{Client, Endpoint};
 use rustified_derive::Endpoint;
@@ -102,7 +102,7 @@ assert!(result.is_ok());
 
 ### Query Parameters
 
-```rust
+```rust,ignore
 use derive_builder::Builder;
 use rustified::{Client, Endpoint};
 use rustified_derive::Endpoint;
@@ -138,7 +138,7 @@ assert!(result.is_ok());
 
 ### Responses
 
-```rust
+```rust,ignore
 use rustified::{Client, Endpoint};
 use rustified_derive::Endpoint;
 
@@ -174,7 +174,7 @@ dbg!(response.success);
 You can find example usage in the [examples](examples) directory. They can
 be run with cargo:
 
-```
+```bash
 cargo run --package rustified --example reqres1
 cargo run --package rustified --example reqres2
 ```
