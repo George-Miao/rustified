@@ -1,8 +1,9 @@
 use std::collections::HashMap;
 
-use crate::Error;
 use proc_macro2::Span;
 use syn::{Expr, Ident, LitStr, Type};
+
+use crate::Error;
 
 /// Used for building the parameter list for the derive function
 #[derive(Default, Debug)]
@@ -66,7 +67,7 @@ impl Parameters {
                     return Err(Error::new(
                         Span::call_site(),
                         "Missing required parameter: path",
-                    ))
+                    ));
                 }
             },
             method: builder

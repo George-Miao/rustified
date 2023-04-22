@@ -1,12 +1,13 @@
 //! Contains helper functions for working with HTTP requests and responses.
 
+use http::{header::CONTENT_TYPE, Request, Uri};
+use serde::Serialize;
+use url::Url;
+
 use crate::{
     enums::{RequestMethod, RequestType},
     errors::ClientError,
 };
-use http::{Request, Uri, header::CONTENT_TYPE};
-use serde::Serialize;
-use url::Url;
 
 /// Builds a request body by serializing an object using a serializer determined
 /// by the [RequestType].

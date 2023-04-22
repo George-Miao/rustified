@@ -1,9 +1,11 @@
 //! Contains the [Client] trait for executing
 //! [Endpoints][crate::endpoint::Endpoint].
-use crate::errors::ClientError;
+use std::ops::RangeInclusive;
+
 use async_trait::async_trait;
 use http::{Request, Response};
-use std::ops::RangeInclusive;
+
+use crate::errors::ClientError;
 
 /// An array of HTTP response codes which indicate a successful response
 pub const HTTP_SUCCESS_CODES: RangeInclusive<u16> = 200..=208;

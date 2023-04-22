@@ -3,10 +3,11 @@ use std::{
     convert::TryFrom,
 };
 
-use crate::{EndpointAttribute, Error};
 use syn::{
     spanned::Spanned, Attribute, Field, Ident, LitStr, Meta, MetaNameValue, NestedMeta, Type,
 };
+
+use crate::{EndpointAttribute, Error};
 
 /// Returns all [Meta] values contained in a [Meta::List].
 ///
@@ -91,7 +92,8 @@ pub(crate) fn to_map(values: &[MetaNameValue]) -> Result<HashMap<Ident, LitStr>,
     Ok(map)
 }
 
-/// Searches a list of [Attribute]'s and returns any matching [crate::ATTR_NAME].
+/// Searches a list of [Attribute]'s and returns any matching
+/// [crate::ATTR_NAME].
 pub(crate) fn attributes(attrs: &[Attribute], name: &str) -> Result<Vec<Meta>, Error> {
     let mut result = Vec::<Meta>::new();
     for attr in attrs.iter() {
